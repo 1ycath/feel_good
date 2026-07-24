@@ -191,7 +191,7 @@ export default function Home() {
   return (
     <main ref={mainRef}>
       <Sequence frames={opening} />
-      <Aside>肯定是不看书的</Aside>
+      <Aside>你肯定是不看摄影书籍的</Aside>
       <AnimalInterlude frame={animals.first} />
       <Sequence frames={observation} />
       <Aside>只是自我感觉良好</Aside>
