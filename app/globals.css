@@ -183,13 +183,104 @@ main {
   text-align: center;
 }
 
+.project-info {
+  position: absolute;
+  right: clamp(20px, 4vw, 56px);
+  bottom: clamp(28px, 5vh, 56px);
+  z-index: 2;
+}
+
+.project-info__button {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  margin-left: auto;
+  padding: 0;
+  place-items: center;
+  border: 1px solid rgb(244 244 240 / 0.58);
+  border-radius: 50%;
+  background: transparent;
+  color: currentColor;
+  cursor: pointer;
+  transition:
+    border-color 240ms ease,
+    background-color 240ms ease;
+}
+
+.project-info__button:hover,
+.project-info__button:focus-visible,
+.project-info.is-open .project-info__button {
+  border-color: currentColor;
+  background: rgb(244 244 240 / 0.1);
+}
+
+.project-info__button:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
+}
+
+.project-info__button span {
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-style: italic;
+  line-height: 1;
+  transform: translate(-1px, -1px);
+}
+
+.project-info__panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 16px);
+  width: min(380px, calc(100vw - 40px));
+  padding: 18px 20px;
+  border: 1px solid rgb(244 244 240 / 0.22);
+  background: rgb(5 5 5 / 0.94);
+  box-shadow: 0 18px 48px rgb(0 0 0 / 0.36);
+  color: #f4f4f0;
+  text-align: left;
+  backdrop-filter: blur(14px);
+  animation: info-in 240ms ease-out both;
+}
+
+.project-info__panel time,
+.project-info__panel p {
+  display: block;
+  margin: 0;
+  font-family: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+  font-size: 0.84rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+  opacity: 1;
+  transform: none;
+}
+
+.project-info__panel p {
+  margin-top: 8px;
+}
+
+@keyframes info-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
 @media (max-width: 720px) {
   .photo {
     min-height: 86svh;
   }
 
   .photo--cover .photo__depth {
-    inset-block: -20px;
+    inset: 0;
+  }
+
+  .photo--cover img {
+    object-fit: contain;
+  }
+
+  .photo__depth {
+    transform: none;
   }
 
   .photo--contain {
@@ -234,6 +325,16 @@ main {
   .back-to-top span {
     line-height: 46px;
   }
+
+  .project-info {
+    right: 20px;
+    bottom: 24px;
+  }
+
+  .project-info__panel {
+    width: calc(100vw - 40px);
+    padding: 16px 18px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -254,5 +355,13 @@ main {
 
   .back-to-top {
     transition: none;
+  }
+
+  .project-info__button {
+    transition: none;
+  }
+
+  .project-info__panel {
+    animation: none;
   }
 }

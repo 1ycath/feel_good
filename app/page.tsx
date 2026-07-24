@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 type Frame = {
   src: string;
@@ -126,6 +126,52 @@ function BackToTop() {
   );
 }
 
+function ProjectInfo() {
+  const [isOpen, setIsOpen] = useState(false);
+  const panelId = useId();
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsOpen(false);
+    };
+
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [isOpen]);
+
+  return (
+    <div className={`project-info${isOpen ? " is-open" : ""}`}>
+      {isOpen && (
+        <div
+          className="project-info__panel"
+          id={panelId}
+          role="region"
+          aria-label="作品信息"
+        >
+          <time dateTime="2026-07-25/2026-07-26">
+            2026.7.25-2026.7.26
+          </time>
+          <p>
+            在被告知“你就是不适合”之后四小时内，完成全部拍摄与制作
+          </p>
+        </div>
+      )}
+      <button
+        className="project-info__button"
+        type="button"
+        aria-label={isOpen ? "关闭作品信息" : "查看作品信息"}
+        aria-expanded={isOpen}
+        aria-controls={isOpen ? panelId : undefined}
+        onClick={() => setIsOpen((open) => !open)}
+      >
+        <span aria-hidden="true">i</span>
+      </button>
+    </div>
+  );
+}
+
 function AnimalInterlude({ frame }: { frame: Frame }) {
   return (
     <section className="animal-interlude">
@@ -205,6 +251,7 @@ export default function Home() {
       <section className="aside aside--final">
         <p data-reveal>那你就不适合啊</p>
         <BackToTop />
+        <ProjectInfo />
       </section>
     </main>
   );
