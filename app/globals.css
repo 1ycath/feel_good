@@ -174,31 +174,13 @@ main {
   outline-offset: 4px;
 }
 
-.back-to-top span,
-.back-to-top span::after {
-  position: absolute;
-  left: 50%;
-  display: block;
-  content: "";
-  transform: translateX(-50%);
-}
-
 .back-to-top span {
-  top: 13px;
-  width: 15px;
-  height: 15px;
-  border-top: 1px solid currentColor;
-  border-left: 1px solid currentColor;
-  transform: translateX(-50%) rotate(45deg);
-}
-
-.back-to-top span::after {
-  top: 5px;
-  width: 1px;
-  height: 23px;
-  background: currentColor;
-  transform: rotate(-45deg);
-  transform-origin: top center;
+  display: block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 30px;
+  font-weight: 300;
+  line-height: 52px;
+  text-align: center;
 }
 
 @media (max-width: 720px) {
@@ -247,6 +229,10 @@ main {
   .back-to-top {
     width: 46px;
     height: 46px;
+  }
+
+  .back-to-top span {
+    line-height: 46px;
   }
 }
 

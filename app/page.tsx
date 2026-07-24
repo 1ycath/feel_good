@@ -121,7 +121,7 @@ function BackToTop() {
       aria-label="回到顶部"
       onClick={scrollToTop}
     >
-      <span aria-hidden="true" />
+      <span aria-hidden="true">↑</span>
     </button>
   );
 }
