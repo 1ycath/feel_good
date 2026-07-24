@@ -33,12 +33,12 @@ const experiment: Frame[] = [
   { src: "bus", fit: "cover" },
 ];
 
-const animals: Frame[] = [
-  { src: "cheetah", fit: "contain", shape: "square" },
-  { src: "dinosaur", fit: "contain", shape: "square" },
-  { src: "crow", fit: "contain", shape: "square" },
-  { src: "wolf", fit: "contain", shape: "square" },
-];
+const animals = {
+  first: { src: "crow", fit: "contain", shape: "square" },
+  second: { src: "cheetah", fit: "contain", shape: "square" },
+  third: { src: "dinosaur", fit: "contain", shape: "square" },
+  final: { src: "wolf", fit: "contain", shape: "square" },
+} satisfies Record<string, Frame>;
 
 const expression: Frame[] = [
   { src: "bridge", fit: "cover" },
@@ -102,6 +102,14 @@ function Aside({
   );
 }
 
+function AnimalInterlude({ frame }: { frame: Frame }) {
+  return (
+    <section className="animal-interlude">
+      <Photo frame={frame} index={0} />
+    </section>
+  );
+}
+
 export default function Home() {
   const mainRef = useRef<HTMLElement>(null);
 
@@ -160,15 +168,16 @@ export default function Home() {
     <main ref={mainRef}>
       <Sequence frames={opening} />
       <Aside>肯定是不看书的</Aside>
+      <AnimalInterlude frame={animals.first} />
       <Sequence frames={observation} />
       <Aside>只是自我感觉良好</Aside>
+      <AnimalInterlude frame={animals.second} />
       <Sequence frames={experiment} />
-      <section className="animal-passage">
-        <Sequence frames={animals} />
-      </section>
       <Sequence frames={expression} />
       <Aside>不是商业摄影</Aside>
+      <AnimalInterlude frame={animals.third} />
       <Sequence frames={finale} />
+      <AnimalInterlude frame={animals.final} />
       <Aside final>那你就不适合啊</Aside>
     </main>
   );

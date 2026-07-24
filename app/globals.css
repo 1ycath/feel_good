@@ -122,17 +122,16 @@ main {
   transform: translateY(0);
 }
 
-.animal-passage {
-  padding: 16vh 0 22vh;
+.animal-interlude {
+  padding: 12vh 0 16vh;
   background: #090909;
 }
 
-.animal-passage .photo {
-  min-height: 92svh;
-  margin-block: 10vh;
+.animal-interlude .photo {
+  min-height: 88svh;
 }
 
-.animal-passage .photo__depth {
+.animal-interlude .photo__depth {
   filter: none;
 }
 
@@ -179,13 +178,12 @@ main {
     letter-spacing: 0.14em;
   }
 
-  .animal-passage {
-    padding-block: 8vh 12vh;
+  .animal-interlude {
+    padding-block: 6vh 10vh;
   }
 
-  .animal-passage .photo {
-    min-height: 80svh;
-    margin-block: 4vh;
+  .animal-interlude .photo {
+    min-height: 76svh;
   }
 }
 
