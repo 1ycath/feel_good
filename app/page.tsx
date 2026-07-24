@@ -43,8 +43,6 @@ const animals = {
 const expression: Frame[] = [
   { src: "bridge", fit: "cover" },
   { src: "flyover", fit: "cover" },
-  { src: "depot", fit: "cover" },
-  { src: "tunnel", fit: "contain", shape: "portrait", tone: "paper" },
 ];
 
 const finale: Frame[] = [
