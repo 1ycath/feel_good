@@ -1,0 +1,207 @@
+@import "tailwindcss";
+
+:root {
+  --black: #050505;
+  --paper: #f0efeb;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--black);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+  background: var(--black);
+  color: #f5f5f2;
+  font-family: "Noto Serif SC", "Songti SC", "STSong", "SimSun", serif;
+}
+
+main {
+  width: 100%;
+}
+
+.photo {
+  --delay: 0ms;
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  margin: 0;
+  overflow: hidden;
+  background: var(--black);
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 1.25s cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay),
+    transform 1.25s cubic-bezier(0.2, 0.7, 0.2, 1) var(--delay);
+}
+
+.photo.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.photo__depth {
+  --shift: 0px;
+  position: absolute;
+  inset: -28px 0;
+  transform: translate3d(0, var(--shift), 0);
+  will-change: transform;
+}
+
+.photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.photo--cover img {
+  object-fit: cover;
+}
+
+.photo--contain {
+  min-height: 116svh;
+  padding: clamp(32px, 7vw, 120px);
+}
+
+.photo--contain .photo__depth {
+  inset: clamp(32px, 7vw, 120px);
+}
+
+.photo--contain img {
+  object-fit: contain;
+}
+
+.photo--paper {
+  background: var(--paper);
+}
+
+.photo--paper .photo__depth {
+  filter: drop-shadow(0 14px 38px rgb(0 0 0 / 0.12));
+}
+
+.photo--portrait .photo__depth {
+  inset-inline: clamp(8vw, 24vw, 29vw);
+}
+
+.photo--square .photo__depth {
+  inset-inline: clamp(4vw, 14vw, 20vw);
+}
+
+.aside {
+  display: grid;
+  min-height: 94svh;
+  place-items: center;
+  padding: 12vh 8vw;
+  background: var(--paper);
+  color: #111;
+}
+
+.aside p {
+  margin: 0;
+  font-size: clamp(1.3rem, 2.35vw, 2.4rem);
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  line-height: 1.75;
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 1.1s ease,
+    transform 1.1s ease;
+}
+
+.aside p.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.animal-passage {
+  padding: 16vh 0 22vh;
+  background: #090909;
+}
+
+.animal-passage .photo {
+  min-height: 92svh;
+  margin-block: 10vh;
+}
+
+.animal-passage .photo__depth {
+  filter: none;
+}
+
+.aside--final {
+  min-height: 112svh;
+  align-items: end;
+  padding-bottom: 19vh;
+  background: var(--black);
+  color: #f4f4f0;
+}
+
+@media (max-width: 720px) {
+  .photo {
+    min-height: 86svh;
+  }
+
+  .photo--cover .photo__depth {
+    inset-block: -20px;
+  }
+
+  .photo--contain {
+    min-height: 94svh;
+    padding: 18vw 7vw;
+  }
+
+  .photo--contain .photo__depth {
+    inset: 18vw 7vw;
+  }
+
+  .photo--portrait .photo__depth {
+    inset: 10vh 8vw;
+  }
+
+  .photo--square .photo__depth {
+    inset: 14vw 5vw;
+  }
+
+  .aside {
+    min-height: 82svh;
+  }
+
+  .aside p {
+    font-size: 1.15rem;
+    letter-spacing: 0.14em;
+  }
+
+  .animal-passage {
+    padding-block: 8vh 12vh;
+  }
+
+  .animal-passage .photo {
+    min-height: 80svh;
+    margin-block: 4vh;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .photo,
+  .aside p {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .photo__depth {
+    transform: none;
+  }
+}
