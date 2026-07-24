@@ -192,19 +192,21 @@ main {
 
 .project-info__button {
   display: grid;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
   margin-left: auto;
   padding: 0;
   place-items: center;
-  border: 1px solid rgb(244 244 240 / 0.58);
+  border: 1px solid rgb(244 244 240 / 0.28);
   border-radius: 50%;
   background: transparent;
   color: currentColor;
   cursor: pointer;
+  opacity: 0.48;
   transition:
     border-color 240ms ease,
-    background-color 240ms ease;
+    background-color 240ms ease,
+    opacity 240ms ease;
 }
 
 .project-info__button:hover,
@@ -212,6 +214,7 @@ main {
 .project-info.is-open .project-info__button {
   border-color: currentColor;
   background: rgb(244 244 240 / 0.1);
+  opacity: 0.88;
 }
 
 .project-info__button:focus-visible {
@@ -221,10 +224,10 @@ main {
 
 .project-info__button span {
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 22px;
+  font-size: 13px;
   font-style: italic;
   line-height: 1;
-  transform: translate(-1px, -1px);
+  transform: translate(-0.5px, -0.5px);
 }
 
 .project-info__panel {
@@ -327,8 +330,8 @@ main {
   }
 
   .project-info {
-    right: 20px;
-    bottom: 24px;
+    right: 18px;
+    bottom: 18px;
   }
 
   .project-info__panel {
