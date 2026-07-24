@@ -102,6 +102,30 @@ function Aside({
   );
 }
 
+function BackToTop() {
+  const scrollToTop = () => {
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    window.scrollTo({
+      top: 0,
+      behavior: reduceMotion ? "auto" : "smooth",
+    });
+  };
+
+  return (
+    <button
+      className="back-to-top"
+      type="button"
+      aria-label="回到顶部"
+      onClick={scrollToTop}
+    >
+      <span aria-hidden="true" />
+    </button>
+  );
+}
+
 function AnimalInterlude({ frame }: { frame: Frame }) {
   return (
     <section className="animal-interlude">
@@ -178,7 +202,10 @@ export default function Home() {
       <AnimalInterlude frame={animals.third} />
       <Sequence frames={finale} />
       <AnimalInterlude frame={animals.final} />
-      <Aside final>那你就不适合啊</Aside>
+      <section className="aside aside--final">
+        <p data-reveal>那你就不适合啊</p>
+        <BackToTop />
+      </section>
     </main>
   );
 }

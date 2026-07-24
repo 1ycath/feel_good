@@ -136,11 +136,69 @@ main {
 }
 
 .aside--final {
+  position: relative;
   min-height: 112svh;
   align-items: end;
   padding-bottom: 19vh;
   background: var(--black);
   color: #f4f4f0;
+}
+
+.back-to-top {
+  position: absolute;
+  bottom: clamp(36px, 6vh, 72px);
+  left: 50%;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: currentColor;
+  cursor: pointer;
+  opacity: 0.62;
+  transform: translateX(-50%);
+  transition:
+    opacity 280ms ease,
+    transform 280ms ease;
+}
+
+.back-to-top:hover,
+.back-to-top:focus-visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(-4px);
+}
+
+.back-to-top:focus-visible {
+  outline: 1px solid currentColor;
+  outline-offset: 4px;
+}
+
+.back-to-top span,
+.back-to-top span::after {
+  position: absolute;
+  left: 50%;
+  display: block;
+  content: "";
+  transform: translateX(-50%);
+}
+
+.back-to-top span {
+  top: 13px;
+  width: 15px;
+  height: 15px;
+  border-top: 1px solid currentColor;
+  border-left: 1px solid currentColor;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.back-to-top span::after {
+  top: 5px;
+  width: 1px;
+  height: 23px;
+  background: currentColor;
+  transform: rotate(-45deg);
+  transform-origin: top center;
 }
 
 @media (max-width: 720px) {
@@ -185,6 +243,11 @@ main {
   .animal-interlude .photo {
     min-height: 76svh;
   }
+
+  .back-to-top {
+    width: 46px;
+    height: 46px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -201,5 +264,9 @@ main {
 
   .photo__depth {
     transform: none;
+  }
+
+  .back-to-top {
+    transition: none;
   }
 }
