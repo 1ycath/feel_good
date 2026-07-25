@@ -2,6 +2,13 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 
+// Increment this value whenever a file in public/photos is replaced.
+const PHOTO_ASSET_VERSION = "1";
+const SCROLL_NUDGE_DELAY_MS = 7000;
+const SCROLL_NUDGE_DURATION_MS = 1400;
+const SCROLL_NUDGE_MAX_DISTANCE_PX = 120;
+const SCROLL_NUDGE_VIEWPORT_DISTANCE = 0.14;
+
 type Frame = {
   src: string;
   fit?: "cover" | "contain";
@@ -65,7 +72,7 @@ function Photo({ frame, index }: { frame: Frame; index: number }) {
     >
       <div className="photo__depth" data-parallax>
         <img
-          src={`/photos/${frame.src}.webp`}
+          src={`/photos/${frame.src}.webp?v=${PHOTO_ASSET_VERSION}`}
           alt=""
           loading={index < 2 ? "eager" : "lazy"}
           decoding="async"
@@ -178,6 +185,97 @@ function AnimalInterlude({ frame }: { frame: Frame }) {
   );
 }
 
+function ScrollNudge() {
+  useEffect(() => {
+    const mobileQuery = window.matchMedia("(max-width: 720px)");
+    if (!mobileQuery.matches || window.scrollY > 4) return;
+
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (reducedMotion) return;
+
+    let hasStarted = false;
+    let scrollFrame: number | undefined;
+
+    const clearScheduledWork = () => {
+      window.clearTimeout(nudgeTimer);
+      if (scrollFrame !== undefined) {
+        window.cancelAnimationFrame(scrollFrame);
+      }
+    };
+
+    const removeListeners = () => {
+      window.removeEventListener("scroll", cancelBeforeStart);
+      window.removeEventListener("touchstart", cancelBeforeStart);
+      window.removeEventListener("pointerdown", cancelBeforeStart);
+      window.removeEventListener("wheel", cancelBeforeStart);
+      window.removeEventListener("keydown", cancelBeforeStart);
+      mobileQuery.removeEventListener("change", handleViewportChange);
+    };
+
+    const cancelBeforeStart = () => {
+      if (hasStarted) return;
+      hasStarted = true;
+      clearScheduledWork();
+      removeListeners();
+    };
+
+    const handleViewportChange = () => {
+      if (!mobileQuery.matches) cancelBeforeStart();
+    };
+
+    window.addEventListener("scroll", cancelBeforeStart, { passive: true });
+    window.addEventListener("touchstart", cancelBeforeStart, { passive: true });
+    window.addEventListener("pointerdown", cancelBeforeStart, {
+      passive: true,
+    });
+    window.addEventListener("wheel", cancelBeforeStart, { passive: true });
+    window.addEventListener("keydown", cancelBeforeStart);
+    mobileQuery.addEventListener("change", handleViewportChange);
+
+    const nudgeTimer = window.setTimeout(() => {
+      hasStarted = true;
+      removeListeners();
+
+      const startY = window.scrollY;
+      const distance = Math.min(
+        SCROLL_NUDGE_MAX_DISTANCE_PX,
+        window.innerHeight * SCROLL_NUDGE_VIEWPORT_DISTANCE,
+      );
+      const startTime = window.performance.now();
+
+      const animateScroll = (now: number) => {
+        const progress = Math.min(
+          (now - startTime) / SCROLL_NUDGE_DURATION_MS,
+          1,
+        );
+        const easedProgress = (1 - Math.cos(Math.PI * progress)) / 2;
+        const scrollingElement = document.scrollingElement;
+
+        if (scrollingElement) {
+          scrollingElement.scrollTop = startY + distance * easedProgress;
+        } else {
+          window.scrollTo(0, startY + distance * easedProgress);
+        }
+
+        if (progress < 1) {
+          scrollFrame = window.requestAnimationFrame(animateScroll);
+        }
+      };
+
+      scrollFrame = window.requestAnimationFrame(animateScroll);
+    }, SCROLL_NUDGE_DELAY_MS);
+
+    return () => {
+      clearScheduledWork();
+      removeListeners();
+    };
+  }, []);
+
+  return null;
+}
+
 export default function Home() {
   const mainRef = useRef<HTMLElement>(null);
 
@@ -234,6 +332,7 @@ export default function Home() {
 
   return (
     <main ref={mainRef}>
+      <ScrollNudge />
       <Sequence frames={opening} />
       <Aside>你肯定是不看摄影书籍的</Aside>
       <AnimalInterlude frame={animals.first} />
