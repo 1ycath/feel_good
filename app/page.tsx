@@ -187,8 +187,7 @@ function AnimalInterlude({ frame }: { frame: Frame }) {
 
 function ScrollNudge() {
   useEffect(() => {
-    const mobileQuery = window.matchMedia("(max-width: 720px)");
-    if (!mobileQuery.matches || window.scrollY > 4) return;
+    if (window.scrollY > 4) return;
 
     const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
@@ -211,7 +210,6 @@ function ScrollNudge() {
       window.removeEventListener("pointerdown", cancelBeforeStart);
       window.removeEventListener("wheel", cancelBeforeStart);
       window.removeEventListener("keydown", cancelBeforeStart);
-      mobileQuery.removeEventListener("change", handleViewportChange);
     };
 
     const cancelBeforeStart = () => {
@@ -221,10 +219,6 @@ function ScrollNudge() {
       removeListeners();
     };
 
-    const handleViewportChange = () => {
-      if (!mobileQuery.matches) cancelBeforeStart();
-    };
-
     window.addEventListener("scroll", cancelBeforeStart, { passive: true });
     window.addEventListener("touchstart", cancelBeforeStart, { passive: true });
     window.addEventListener("pointerdown", cancelBeforeStart, {
@@ -232,7 +226,6 @@ function ScrollNudge() {
     });
     window.addEventListener("wheel", cancelBeforeStart, { passive: true });
     window.addEventListener("keydown", cancelBeforeStart);
-    mobileQuery.addEventListener("change", handleViewportChange);
 
     const nudgeTimer = window.setTimeout(() => {
       hasStarted = true;
